@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         var message: EditText = findViewById<EditText>(R.id.editTextTextPersonName)
 
+
       stop.visibility = View.INVISIBLE
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as? AlarmManager
