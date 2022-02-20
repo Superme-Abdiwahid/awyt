@@ -23,6 +23,7 @@ class IntentListener: BroadcastReceiver(){
     }
     override fun onReceive(p0: Context?, p1: Intent?) {
 
+    //var sms = Toast.makeText(this, "Recived ${p1}", Toast.LENGTH_LONG)
 
 
     }
