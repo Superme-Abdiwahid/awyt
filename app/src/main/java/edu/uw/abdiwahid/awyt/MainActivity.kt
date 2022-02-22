@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.telephony.SmsManager
 import android.util.Log
-
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -93,14 +92,11 @@ class IntentListener: BroadcastReceiver() {
                     }
 
                     else -> {
-                        Log.i("Else", "I am the else block")
+                        Log.i("Else", "FAILED_ REQUESTING PERMISSION")
 
-                        requestPermissions(arrayOf("android.permission.SEND_SMS"), 42)
+                        requestPermissions(arrayOf("android.permission.SEND_SMS"), 100)
                     }
                 }
-
-
-
 
             }
 
@@ -149,7 +145,7 @@ class IntentListener: BroadcastReceiver() {
                                                 permissions: Array<String>, grantResults: IntArray) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             when (requestCode) {
-                42 -> {
+                100 -> {
                     if ((grantResults.isNotEmpty() &&
                                 grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                         val ssMgr = SmsManager.getDefault()
