@@ -1,6 +1,5 @@
 
 package edu.uw.abdiwahid.awyt
-
 import android.annotation.TargetApi
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -65,9 +64,6 @@ class IntentListener: BroadcastReceiver() {
             if (pendingIntent != null && alarmManager != null) {
                 alarmManager.cancel(pendingIntent)
             }
-
-
-
             val intent = PendingIntent.getBroadcast(
                 this, 0, intent, 0
             );
@@ -94,7 +90,7 @@ class IntentListener: BroadcastReceiver() {
                     else -> {
                         Log.i("Else", "FAILED_ REQUESTING PERMISSION")
 
-                        requestPermissions(arrayOf("android.permission.SEND_SMS"), 100)
+                        requestPermissions(arrayOf("android.permission.SEND_SMS"), 42)
                     }
                 }
 
@@ -102,7 +98,6 @@ class IntentListener: BroadcastReceiver() {
 
 
             var stop: Button = findViewById<Button>(R.id.stop)
-
 
 
             stop.visibility = View.INVISIBLE
@@ -145,7 +140,7 @@ class IntentListener: BroadcastReceiver() {
                                                 permissions: Array<String>, grantResults: IntArray) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             when (requestCode) {
-                100 -> {
+                42 -> {
                     if ((grantResults.isNotEmpty() &&
                                 grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                         val ssMgr = SmsManager.getDefault()
@@ -156,8 +151,6 @@ class IntentListener: BroadcastReceiver() {
                     }
                     return
                 }
-
-
                 else -> {
 
                 }
@@ -177,7 +170,7 @@ class IntentListener: BroadcastReceiver() {
             if (phoneNumber.length == 10) {
                 builder.append("(" + phoneNumber.substring(0, 3) + ")" + "-");
                 builder.append(phoneNumber.substring(3, 6) + "-" + phoneNumber.substring(6, 10))
-                return builder.toString()
+                return builder.toString() n
             }
 
             return "This is a  invalid number must be 10 digits";
