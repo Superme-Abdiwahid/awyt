@@ -87,13 +87,8 @@ class IntentListener: BroadcastReceiver() {
             button.setOnClickListener{
                 Log.i("Abdiwahid", "Button Clicked")
 
-              //  checkPermission("android.permission.SEND_SMS")
-
                 when {
                     checkSelfPermission("android.permission.SEND_SMS") == PackageManager.PERMISSION_GRANTED -> {
-                       val ssMgr = SmsManager.getDefault()
-
-                        ssMgr.sendTextMessage(this.result, null, this.message, null, null)
 
                     }
 
@@ -108,6 +103,7 @@ class IntentListener: BroadcastReceiver() {
 
 
             }
+
 
             var stop: Button = findViewById<Button>(R.id.stop)
 
@@ -146,6 +142,29 @@ class IntentListener: BroadcastReceiver() {
                     like.show()
                 }
                     Log.i("Abdiwahid", result)
+            }
+        }
+
+        override fun onRequestPermissionsResult(requestCode: Int,
+                                                permissions: Array<String>, grantResults: IntArray) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+            when (requestCode) {
+                42 -> {
+                    if ((grantResults.isNotEmpty() &&
+                                grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                        val ssMgr = SmsManager.getDefault()
+                        ssMgr.sendTextMessage(this.result, null, this.message, null, null)
+
+                    } else {
+                       Log.i("Main_Activity", "USER SAID NO")
+                    }
+                    return
+                }
+
+
+                else -> {
+
+                }
             }
         }
 
