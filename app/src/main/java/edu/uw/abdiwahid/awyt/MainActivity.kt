@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.telephony.SmsManager
@@ -32,8 +33,6 @@ import java.lang.annotation.Native
 
 
 
-
-
 class IntentListener: BroadcastReceiver() {
     init {
         Log.i("ABDIWAHID", "We created YYEEYEYE!!")
@@ -54,7 +53,8 @@ class IntentListener: BroadcastReceiver() {
     @DisplayContext
     class MainActivity : AppCompatActivity() {
         private var result: String = "";
-
+        private lateinit var like: Toast;
+        private lateinit var message: String;
         @ExperimentalMultiplatform
         @MainThread
         @SuppressWarnings("unknown")
@@ -68,7 +68,7 @@ class IntentListener: BroadcastReceiver() {
             }
 
 
-            val broadCastIntent: Intent = Intent(this, IntentListener::class.java);
+
             val intent = PendingIntent.getBroadcast(
                 this, 0, intent, 0
             );
@@ -81,11 +81,36 @@ class IntentListener: BroadcastReceiver() {
             );
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)
-            var start: Button = findViewById<Button>(R.id.begin)
+            val broadCastIntent: Intent = Intent(this, IntentListener::class.java);
+            var button: Button = findViewById<Button>(R.id.begin);
+            var getUserInput: EditText = findViewById<EditText>(R.id.editTextTextPersonName)
+            button.setOnClickListener{
+                Log.i("Abdiwahid", "Button Clicked")
+
+              //  checkPermission("android.permission.SEND_SMS")
+
+                when {
+                    checkSelfPermission("android.permission.SEND_SMS") == PackageManager.PERMISSION_GRANTED -> {
+                       val ssMgr = SmsManager.getDefault()
+
+                        ssMgr.sendTextMessage(this.result, null, this.message, null, null)
+
+                    }
+
+                    else -> {
+                        Log.i("Else", "I am the else block")
+
+                        requestPermissions(arrayOf("android.permission.SEND_SMS"), 42)
+                    }
+                }
+
+
+
+
+            }
 
             var stop: Button = findViewById<Button>(R.id.stop)
 
-            var message: EditText = findViewById<EditText>(R.id.editTextTextPersonName)
 
 
             stop.visibility = View.INVISIBLE
@@ -101,10 +126,30 @@ class IntentListener: BroadcastReceiver() {
                 Toast.makeText(this, "Your number is: ${result}", Toast.LENGTH_LONG)
                 Log.i("Abdiwahid", result)
             }
+            if(!result.isEmpty()) {
+                var high = Toast.makeText(this, "Your number is: ${result}", Toast.LENGTH_LONG)
+                high.show()
+            }
 
-            Toast.makeText(this, "Your number is: ${result}", Toast.LENGTH_LONG)
+            getUserInput.addTextChangedListener { btn ->
+                message = getUserInput.text.toString();
+                Log.i("INPUT", message);
+            }
+            phone.addTextChangedListener {
 
+                result = produceNumber(phone.text.toString())
+                if(result.equals("This is a  invalid number must be 10 digits")) {
+                   like  = Toast.makeText(this, "This is an invalid number Your number is: ${result}", Toast.LENGTH_SHORT)
+                    like.show()
+                }else{
+                    like  = Toast.makeText(this, "Your number is: ${result}", Toast.LENGTH_SHORT)
+                    like.show()
+                }
+                    Log.i("Abdiwahid", result)
+            }
         }
+
+
 
         @ExperimentalMultiplatform
         @MainThread
