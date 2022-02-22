@@ -170,7 +170,7 @@ class IntentListener: BroadcastReceiver() {
             if (phoneNumber.length == 10) {
                 builder.append("(" + phoneNumber.substring(0, 3) + ")" + "-");
                 builder.append(phoneNumber.substring(3, 6) + "-" + phoneNumber.substring(6, 10))
-                return builder.toString() n
+                return builder.toString()
             }
 
             return "This is a  invalid number must be 10 digits";
